@@ -1,2 +1,2 @@
-# MyNotesApp
-# MyNotesApp
+# Aplikasi Catatan Sederhana
+# Cek Tab Release
