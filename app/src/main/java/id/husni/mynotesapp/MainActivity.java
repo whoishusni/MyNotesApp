@@ -1,6 +1,7 @@
 package id.husni.mynotesapp;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import id.husni.mynotesapp.adapter.NoteAdapter;
+import id.husni.mynotesapp.db.MappingHelper;
 import id.husni.mynotesapp.db.NoteHelper;
 import id.husni.mynotesapp.entity.NoteModel;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
@@ -115,7 +117,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         protected ArrayList<NoteModel> doInBackground(Void... voids) {
-            return helperWeakReference.get().getAllNoteData();
+            Cursor dataCursor = helperWeakReference.get().getAllNoteData();
+            return MappingHelper.mapCursorToArray(dataCursor);
         }
 
         @Override

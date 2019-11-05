@@ -7,15 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.ArrayList;
-
-import id.husni.mynotesapp.entity.NoteModel;
-
 import static id.husni.mynotesapp.db.DatabaseContract.Kolom.NAMA_TABLE;
 import static id.husni.mynotesapp.db.DatabaseContract.Kolom._ID;
-import static id.husni.mynotesapp.db.DatabaseContract.Kolom.JUDUL;
-import static id.husni.mynotesapp.db.DatabaseContract.Kolom.DETAIL;
-import static id.husni.mynotesapp.db.DatabaseContract.Kolom.TANGGAL;
 
 public class NoteHelper {
 
@@ -48,51 +41,33 @@ public class NoteHelper {
         }
     }
 
-    public ArrayList<NoteModel> getAllNoteData() {
-        ArrayList<NoteModel> noteModels = new ArrayList<>();
-        Cursor cursor = database.query(NAMA_TABLE,
+    public Cursor getAllNoteData() {
+        return database.query(NAMA_TABLE,
                 null,
                 null,
                 null,
                 null,
                 null,
-                _ID + " ASC",
-                null);
-        cursor.moveToFirst();
-        NoteModel note;
-        if (cursor.getCount() > 0) {
-            do {
-                note = new NoteModel();
-                note.setId(cursor.getInt(cursor.getColumnIndexOrThrow(_ID)));
-                note.setJudul(cursor.getString(cursor.getColumnIndexOrThrow(JUDUL)));
-                note.setDetail(cursor.getString(cursor.getColumnIndexOrThrow(DETAIL)));
-                note.setTanggal(cursor.getString(cursor.getColumnIndexOrThrow(TANGGAL)));
-
-                noteModels.add(note);
-                cursor.moveToNext();
-
-            } while (!cursor.isAfterLast());
-        }
-        cursor.close();
-        return noteModels;
+                _ID + " ASC");
     }
-    public long insertData(NoteModel note) {
-        ContentValues values = new ContentValues();
-        values.put(JUDUL, note.getJudul());
-        values.put(DETAIL, note.getDetail());
-        values.put(TANGGAL, note.getTanggal());
+
+    public Cursor getDataById(String id) {
+        return database.query(NAMA_TABLE,
+                null,
+                _ID + "= ?", new String[]{id},
+                null,
+                null,
+                null);
+    }
+    public long insertData(ContentValues values) {
         return database.insert(NAMA_TABLE, null, values);
     }
 
-    public int updateData(NoteModel note) {
-        ContentValues values = new ContentValues();
-        values.put(JUDUL, note.getJudul());
-        values.put(DETAIL, note.getDetail());
-        values.put(TANGGAL, note.getTanggal());
-        return database.update(NAMA_TABLE, values, _ID + "='" + note.getId() + "'", null);
+    public int updateData(String id, ContentValues contentValues) {
+        return database.update(NAMA_TABLE, contentValues, _ID + "= ?", new String[]{id});
     }
 
-    public int deleteData(int id) {
-        return database.delete(NAMA_TABLE, _ID + "='" + id + "'", null);
+    public int deleteData(String id) {
+        return database.delete(NAMA_TABLE, _ID + "= ?", new String[]{id});
     }
 }

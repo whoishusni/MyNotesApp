@@ -9,6 +9,17 @@ public class NoteModel implements Parcelable {
     String detail;
     String tanggal;
 
+    public NoteModel(int id, String judul, String detail, String tanggal) {
+        this.id = id;
+        this.judul = judul;
+        this.detail = detail;
+        this.tanggal = tanggal;
+    }
+
+    public NoteModel() {
+
+    }
+
     public int getId() {
         return id;
     }
@@ -54,9 +65,6 @@ public class NoteModel implements Parcelable {
         dest.writeString(this.tanggal);
     }
 
-    public NoteModel() {
-    }
-
     protected NoteModel(Parcel in) {
         this.id = in.readInt();
         this.judul = in.readString();
@@ -64,7 +72,7 @@ public class NoteModel implements Parcelable {
         this.tanggal = in.readString();
     }
 
-    public static final Parcelable.Creator<NoteModel> CREATOR = new Parcelable.Creator<NoteModel>() {
+    public static final Creator<NoteModel> CREATOR = new Creator<NoteModel>() {
         @Override
         public NoteModel createFromParcel(Parcel source) {
             return new NoteModel(source);

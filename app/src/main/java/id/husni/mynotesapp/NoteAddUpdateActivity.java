@@ -1,5 +1,6 @@
 package id.husni.mynotesapp;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,10 @@ import java.util.Locale;
 
 import id.husni.mynotesapp.db.NoteHelper;
 import id.husni.mynotesapp.entity.NoteModel;
+
+import static id.husni.mynotesapp.db.DatabaseContract.Kolom.JUDUL;
+import static id.husni.mynotesapp.db.DatabaseContract.Kolom.DETAIL;
+import static id.husni.mynotesapp.db.DatabaseContract.Kolom.TANGGAL;
 
 public class NoteAddUpdateActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -99,8 +104,12 @@ public class NoteAddUpdateActivity extends AppCompatActivity implements View.OnC
             intent.putExtra(EXTRA_NOTE, noteModel);
             intent.putExtra(EXTRA_POSITION, position);
 
+            ContentValues values = new ContentValues();
+            values.put(JUDUL, judul);
+            values.put(DETAIL, detail);
+
             if (isEdit) {
-                long result = helper.updateData(noteModel);
+                long result = helper.updateData(String.valueOf(noteModel.getId()), values);
                 if (result > 0) {
                     setResult(RESULT_CODE_UPDATE, intent);
                     finish();
@@ -109,7 +118,8 @@ public class NoteAddUpdateActivity extends AppCompatActivity implements View.OnC
                 }
             } else {
                 noteModel.setTanggal(tanggalSet());
-                long result = helper.insertData(noteModel);
+                values.put(TANGGAL,tanggalSet());
+                long result = helper.insertData(values);
                 if (result > 0) {
                     noteModel.setId((int) result);
                     setResult(RESULT_CODE_ADD, intent);
@@ -183,7 +193,7 @@ public class NoteAddUpdateActivity extends AppCompatActivity implements View.OnC
                         if (isClose) {
                             finish();
                         } else {
-                            long result = helper.deleteData(noteModel.getId());
+                            long result = helper.deleteData(String.valueOf(noteModel.getId()));
                             if (result > 0) {
                                 Intent intent = new Intent();
                                 intent.putExtra(EXTRA_POSITION, position);
