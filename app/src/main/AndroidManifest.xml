@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="id.husni.mynotesapp">
 
+    <permission
+        android:name="id.husni.mynotesapp.READ_DATABASE"
+        android:protectionLevel="normal" />
+
+    <permission
+        android:name="id.husni.mynotesapp.WRITE_DATABASE"
+        android:protectionLevel="normal" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +17,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <provider
+            android:name=".provider.NotesProvider"
+            android:authorities="id.husni.mynotesapp"
+            android:enabled="true"
+            android:exported="true"
+            android:readPermission="id.husni.mynotesapp.READ_DATABASE"
+            android:writePermission="id.husni.mynotesapp.WRITE_DATABASE"></provider>
 
         <activity android:name=".NoteAddUpdateActivity" />
         <activity android:name=".MainActivity">

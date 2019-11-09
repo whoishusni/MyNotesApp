@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <item name="com.firebase.jobdispatcher.Constraint int compact(int[]) 0">
+    <annotation name="androidx.annotation.IntDef">
+      <val name="flag" val="true" />
+      <val name="value" val="{com.firebase.jobdispatcher.Constraint.ON_ANY_NETWORK, com.firebase.jobdispatcher.Constraint.ON_UNMETERED_NETWORK, com.firebase.jobdispatcher.Constraint.DEVICE_CHARGING, com.firebase.jobdispatcher.Constraint.DEVICE_IDLE}" />
+    </annotation>
+  </item>
+  <item name="com.firebase.jobdispatcher.Constraint.JobConstraint">
+    <annotation name="androidx.annotation.IntDef">
+      <val name="flag" val="true" />
+      <val name="value" val="{com.firebase.jobdispatcher.Constraint.ON_ANY_NETWORK, com.firebase.jobdispatcher.Constraint.ON_UNMETERED_NETWORK, com.firebase.jobdispatcher.Constraint.DEVICE_CHARGING, com.firebase.jobdispatcher.Constraint.DEVICE_IDLE}" />
+    </annotation>
+  </item>
+  <item name="com.firebase.jobdispatcher.ConstraintChecker boolean areNetworkConstraintsSatisfied(int) 0">
+    <annotation name="androidx.annotation.IntDef">
+      <val name="flag" val="true" />
+      <val name="value" val="{com.firebase.jobdispatcher.Constraint.ON_ANY_NETWORK, com.firebase.jobdispatcher.Constraint.ON_UNMETERED_NETWORK, com.firebase.jobdispatcher.Constraint.DEVICE_CHARGING, com.firebase.jobdispatcher.Constraint.DEVICE_IDLE}" />
+    </annotation>
+  </item>
+  <item name="com.firebase.jobdispatcher.ConstraintChecker boolean wantsAnyNetwork(int) 0">
+    <annotation name="androidx.annotation.IntDef">
+      <val name="flag" val="true" />
+      <val name="value" val="{com.firebase.jobdispatcher.Constraint.ON_ANY_NETWORK, com.firebase.jobdispatcher.Constraint.ON_UNMETERED_NETWORK, com.firebase.jobdispatcher.Constraint.DEVICE_CHARGING, com.firebase.jobdispatcher.Constraint.DEVICE_IDLE}" />
+    </annotation>
+  </item>
+  <item name="com.firebase.jobdispatcher.ConstraintChecker boolean wantsNetwork(int) 0">
+    <annotation name="androidx.annotation.IntDef">
+      <val name="flag" val="true" />
+      <val name="value" val="{com.firebase.jobdispatcher.Constraint.ON_ANY_NETWORK, com.firebase.jobdispatcher.Constraint.ON_UNMETERED_NETWORK, com.firebase.jobdispatcher.Constraint.DEVICE_CHARGING, com.firebase.jobdispatcher.Constraint.DEVICE_IDLE}" />
+    </annotation>
+  </item>
+  <item name="com.firebase.jobdispatcher.ConstraintChecker boolean wantsUnmeteredNetwork(int) 0">
+    <annotation name="androidx.annotation.IntDef">
+      <val name="flag" val="true" />
+      <val name="value" val="{com.firebase.jobdispatcher.Constraint.ON_ANY_NETWORK, com.firebase.jobdispatcher.Constraint.ON_UNMETERED_NETWORK, com.firebase.jobdispatcher.Constraint.DEVICE_CHARGING, com.firebase.jobdispatcher.Constraint.DEVICE_IDLE}" />
+    </annotation>
+  </item>
+  <item name="com.firebase.jobdispatcher.Driver int cancel(java.lang.String)">
+    <annotation name="androidx.annotation.IntDef">
+      <val name="value" val="{com.fire

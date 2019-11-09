@@ -3,6 +3,8 @@ package id.husni.mynotesapp;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,9 +20,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import id.husni.mynotesapp.db.MappingHelper;
 import id.husni.mynotesapp.db.NoteHelper;
 import id.husni.mynotesapp.entity.NoteModel;
 
+import static id.husni.mynotesapp.db.DatabaseContract.Kolom.CONTENT_URI;
 import static id.husni.mynotesapp.db.DatabaseContract.Kolom.JUDUL;
 import static id.husni.mynotesapp.db.DatabaseContract.Kolom.DETAIL;
 import static id.husni.mynotesapp.db.DatabaseContract.Kolom.TANGGAL;
@@ -39,15 +43,14 @@ public class NoteAddUpdateActivity extends AppCompatActivity implements View.OnC
     EditText edtJudul, edtDetail;
     Button btnSubmit;
     private boolean isEdit = false;
-    NoteHelper helper;
     NoteModel noteModel;
     int position;
+    private Uri uriWithId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_add_update);
 
-        helper = NoteHelper.getInstance(getApplicationContext());
         noteModel = getIntent().getParcelableExtra(EXTRA_NOTE);
 
         if (noteModel != null) {
@@ -63,7 +66,15 @@ public class NoteAddUpdateActivity extends AppCompatActivity implements View.OnC
         btnSubmit.setOnClickListener(this);
 
         String actBar, btnTitle;
+        uriWithId = Uri.parse(CONTENT_URI + "/" + noteModel.getId());
         if (isEdit) {
+            if (uriWithId != null) {
+                Cursor cursor = getContentResolver().query(uriWithId, null, null, null, null);
+                if (cursor != null) {
+                    noteModel = MappingHelper.mapCursorToObject(cursor);
+                    cursor.close();
+                }
+            }
             actBar = "Edit";
             btnTitle = "Update";
 
@@ -109,24 +120,15 @@ public class NoteAddUpdateActivity extends AppCompatActivity implements View.OnC
             values.put(DETAIL, detail);
 
             if (isEdit) {
-                long result = helper.updateData(String.valueOf(noteModel.getId()), values);
-                if (result > 0) {
-                    setResult(RESULT_CODE_UPDATE, intent);
-                    finish();
-                } else {
-                    Toast.makeText(this, "Gagal Update", Toast.LENGTH_SHORT).show();
-                }
+                getContentResolver().update(uriWithId, values, null, null);
+                Toast.makeText(this, "EDITED", Toast.LENGTH_SHORT).show();
+                finish();
             } else {
                 noteModel.setTanggal(tanggalSet());
                 values.put(TANGGAL,tanggalSet());
-                long result = helper.insertData(values);
-                if (result > 0) {
-                    noteModel.setId((int) result);
-                    setResult(RESULT_CODE_ADD, intent);
-                    finish();
-                } else {
-                    Toast.makeText(this, "Gagal Menambahkan", Toast.LENGTH_SHORT).show();
-                }
+                getContentResolver().insert(CONTENT_URI, values);
+                Toast.makeText(this, "ADDED", Toast.LENGTH_SHORT).show();
+                finish();
             }
         }
     }
@@ -193,15 +195,9 @@ public class NoteAddUpdateActivity extends AppCompatActivity implements View.OnC
                         if (isClose) {
                             finish();
                         } else {
-                            long result = helper.deleteData(String.valueOf(noteModel.getId()));
-                            if (result > 0) {
-                                Intent intent = new Intent();
-                                intent.putExtra(EXTRA_POSITION, position);
-                                setResult(RESULT_CODE_DELETE, intent);
-                                finish();
-                            } else {
-                                Toast.makeText(NoteAddUpdateActivity.this, "Gagal Hapus Data", Toast.LENGTH_SHORT).show();
-                            }
+                            getContentResolver().delete(uriWithId, null, null);
+                            Toast.makeText(NoteAddUpdateActivity.this, "DELETED", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     }
                 })
