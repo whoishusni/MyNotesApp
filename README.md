@@ -1,1 +1,1 @@
-# Aplikasi Catatan Sederhana
+# MyNotesApp (DEPRECATED)
